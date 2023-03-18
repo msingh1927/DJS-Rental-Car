@@ -1,0 +1,4 @@
+/* Use for pages that should not scroll (should not have y overflow) */
+.page-container {
+    @apply h-full w-full flex flex-col justify-start;
+}
