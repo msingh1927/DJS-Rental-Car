@@ -147,7 +147,7 @@ export default {
           year: this.addYear,
           color: this.addColor,
           capacity: this.addCapacity,
-          price: this.addType,
+          price: this.addPrice,
           type: this.addType
         }})
         .then(function (response) {
