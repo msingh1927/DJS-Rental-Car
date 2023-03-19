@@ -1,8 +1,9 @@
 import Home from "./components/HomeView.vue";
 import Registration from "./components/RegistrationView.vue";
-import SignUp from "./components/SignUp.vue";
 import BookedCars from "./components/BookedCars.vue";
 import carService from "./components/carService.vue";
+import CarsListView from "./components/CarsListView.vue"
+import AdminPage from "./components/AdminPage.vue"
 import { createRouter, createWebHistory } from "vue-router";
 
 // eslint-disable-next-line no-sparse-arrays
@@ -11,11 +12,6 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-  },
-  {
-    path: "/SignUp",
-    name: "SignUp",
-    component: SignUp,
   },
   {
     path: "/Registration",
@@ -27,6 +23,16 @@ const routes = [
     path: "/carService",
     name: "carService",
     component: carService,
+  },
+  {
+    path: "/carlistview",
+    name: "CarsListView",
+    component: CarsListView,
+  },
+  {
+    path: "/admin",
+    name: "AdminPage",
+    component: AdminPage,
   },
   {
     path: "/BookedCars",
