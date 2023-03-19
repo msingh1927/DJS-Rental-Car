@@ -4,13 +4,18 @@
       <div class="row d-flex justify-content-center">
         <!-- Right column with buttons-->
         <div id="menu-buttons-col" class="col-2">
-          <button id="toggleAddButton" class="menu-button" :class="{'active-button': showAddPanel}" type="button" @click="showAddPanel=true; showModPanel=false; showDelPanel=false">Add a Vehicle</button>
-          <button id="toggleModButton" class="menu-button" :class="{'active-button': showModPanel}" type="button" @click="showAddPanel=false; showModPanel=true; modSuccess=false; showDelPanel=false">Modify a Vehicle</button>
-          <button id="toggleDelButton" class="menu-button" :class="{'active-button': showDelPanel}" type="button" @click="showAddPanel=false; showModPanel=false; showDelPanel=true; delSuccess=false">Delete a Vehicle</button>
+          <button id="toggleAddVehButton" class="menu-button" :class="{'active-button': showAddVehPanel}" type="button" @click="showAddUserPanel=false; showModUserPanel=false; showDelUserPanel=false; showAddVehPanel=true; addVehMsg=false; showModVehPanel=false; showDelVehPanel=false">Add a Vehicle</button>
+          <button id="toggleModVehButton" class="menu-button" :class="{'active-button': showModVehPanel}" type="button" @click="showAddUserPanel=false; showModUserPanel=false; showDelUserPanel=false; showAddVehPanel=false; showModVehPanel=true; modVehMsg=false; showDelVehPanel=false">Modify a Vehicle</button>
+          <button id="toggleDelVehButton" class="menu-button" :class="{'active-button': showDelVehPanel}" type="button" @click="showAddUserPanel=false; showModUserPanel=false; showDelUserPanel=false; showAddVehPanel=false; showModVehPanel=false; showDelVehPanel=true; delVehMsg=false">Delete a Vehicle</button>
+          <p/><p/>
+          <button id="toggleAddUserButton" class="menu-button" :class="{'active-button': showAddUserPanel}" type="button" @click="showAddUserPanel=true; addUserMsg=false; showModUserPanel=false; showDelUserPanel=false; showAddVehPanel=false; showModVehPanel=false; showDelVehPanel=false">Add a User</button>
+          <button id="toggleModUserButton" class="menu-button" :class="{'active-button': showModUserPanel}" type="button" @click="showAddUserPanel=false; showModUserPanel=true; modUserMsg=false; showDelUserPanel=false; showAddVehPanel=false; showModVehPanel=false; showDelVehPanel=false">Modify a User</button>
+          <button id="toggleDelUserButton" class="menu-button" :class="{'active-button': showDelUserPanel}" type="button" @click="showAddUserPanel=false; showModUserPanel=false; showDelUserPanel=true; delUserMsg=false; showAddVehPanel=false; showModVehPanel=false; showDelVehPanel=false">Delete a User</button>
+        
         </div>
         <div class="col-9">
           <!-- Add Vehicle panel -->
-          <div id="add-veh-card" v-show="showAddPanel" class="card" style="border-radius: 1rem">
+          <div id="add-veh-card" v-show="showAddVehPanel" class="card" style="border-radius: 1rem">
             <div class="card-body p-5 text-black">
               <form>
                 <h3 class="fw-normal mb-3 pb-3">Add a Vehicle</h3>
@@ -37,13 +42,15 @@
                 <label class="form-label mb-4" for="add-type">Type of Vehicle</label>
                 <div class="pt-1 mb-4">
                   <input type="button" class="btn btn-dark btn-lg btn-block" id="add-vehicle-button" v-on:click="addVehicle" value="Add Vehicle"/>
+                  <p/>
+                  <div id="added-veh-msg" v-if="addVehMsg">Vehicle Added</div>
                 </div>
               </form>
             </div>
           </div>
 
           <!-- Modify Vehicle panel -->
-          <div id="modify-veh-card" v-show="showModPanel" class="card" style="border-radius: 1rem">
+          <div id="modify-veh-card" v-show="showModVehPanel" class="card" style="border-radius: 1rem">
             <div class="card-body p-5 text-black">
               <form>
                 <h3 class="fw-normal mb-3 pb-3">Modify an Existing Vehicle</h3>
@@ -80,7 +87,24 @@
                 <div class="pt-1 mb-4">
                   <input type="button" class="btn btn-dark btn-lg btn-block" id="mod-vehicle-button" v-on:click="modifyVehicle" value="Update Vehicle"/>
                   <p/>
-                  <div id="mod-saved-msg" v-if="modSuccess">Vehicle Updated!</div>
+                  <div id="mod-veh-saved-msg" v-if="modVehMsg">Vehicle Updated!</div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Delete Vehicle panel -->
+          <div id="del-veh-card" v-show="showDelVehPanel" class="card" style="border-radius: 1rem">
+            <div class="card-body p-5 text-black">
+              <form>
+                <h3 class="fw-normal mb-3 pb-3">Delete an Existing Vehicle</h3>
+                <!-- Vehicle ID -->
+                <input type="text" id="del-vid" v-model="delVid" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="del-vid">Vehicle ID</label>
+                <div class="pt-1 mb-4">
+                  <input type="button" class="btn btn-dark btn-lg btn-block" id="del-veh-button" v-on:click="deleteVehicle" value="Delete Vehicle"/>
+                  <p/>
+                  <div id="del-veh-msg" v-if="delVehMsg">Vehicle Deleted</div>
                 </div>
               </form>
             </div>
@@ -88,18 +112,79 @@
 
 
 
-          <!-- Delete Vehicle panel -->
-          <div id="del-veh-card" v-show="showDelPanel" class="card" style="border-radius: 1rem">
+          <!-- Add User panel -->
+          <div id="add-user-card" v-show="showAddUserPanel" class="card" style="border-radius: 1rem">
             <div class="card-body p-5 text-black">
               <form>
-                <h3 class="fw-normal mb-3 pb-3">Delete an Existing Vehicle</h3>
-                <!-- Vehicle ID -->
-                <input type="text" id="mod-vid" v-model="delVid" class="form-control form-control-lg"/>
-                <label class="form-label mb-3" for="mod-vid">Vehicle ID</label>
+                <h3 class="fw-normal mb-3 pb-3">Add a User</h3>
+                <!-- First Name -->
+                <input type="text" id="add-fname" v-model="addFname" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">First Name</label>
+                <!-- Last name -->
+                <input type="text" id="add-lname" v-model="addLname" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">Last Name</label>
+                <!-- Email -->
+                <input type="text" id="add-email" v-model="addEmail" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">E-mail</label>
+                <!-- Phone number -->
+                <input type="text" id="add-phonenum" v-model="addPhoneNum" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">Phone Number</label>
                 <div class="pt-1 mb-4">
-                  <input type="button" class="btn btn-dark btn-lg btn-block" id="del-veh-button" v-on:click="deleteVehicle" value="Delete Vehicle"/>
+                  <input type="button" class="btn btn-dark btn-lg btn-block" id="add-user-button" v-on:click="addUser" value="Add User"/>
                   <p/>
-                  <div id="deleted-msg" v-if="delSuccess">Vehicle Deleted</div>
+                  <div id="added-user-msg" v-if="addUserMsg">User Added</div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Modify User panel -->
+          <div id="modify-user-card" v-show="showModUserPanel" class="card" style="border-radius: 1rem">
+            <div class="card-body p-5 text-black">
+              <form>
+                <h3 class="fw-normal mb-3 pb-3">Modify an Existing User</h3>
+                <!-- User ID -->
+                <input type="text" id="mod-userid" v-model="modUserId" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="mod-vid">User ID</label>
+                <div class="pt-1 mb-4">
+                  <input type="button" class="btn btn-dark btn-lg btn-block" id="search-user-button" v-on:click="getUser" value="Find User"/>
+                </div>
+              </form>
+              <p/>
+              <form>
+                <!-- First Name -->
+                <input type="text" id="mod-fname" v-model="modFname" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">First Name</label>
+                <!-- Last name -->
+                <input type="text" id="mod-lname" v-model="modLname" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">Last Name</label>
+                <!-- Email -->
+                <input type="text" id="mod-email" v-model="modEmail" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">E-mail</label>
+                <!-- Phone number -->
+                <input type="text" id="mod-phonenum" v-model="modPhoneNum" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="add-make">Phone Number</label>
+                <div class="pt-1 mb-4">
+                  <input type="button" class="btn btn-dark btn-lg btn-block" id="mod-user-button" v-on:click="modifyUser" value="Update User"/>
+                  <p/>
+                  <div id="mod-user-saved-msg" v-if="modUserMsg">User Updated</div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Delete User panel -->
+          <div id="del-user-card" v-show="showDelUserPanel" class="card" style="border-radius: 1rem">
+            <div class="card-body p-5 text-black">
+              <form>
+                <h3 class="fw-normal mb-3 pb-3">Delete an Existing User</h3>
+                <!-- User ID -->
+                <input type="text" id="del-userid" v-model="delUserId" class="form-control form-control-lg"/>
+                <label class="form-label mb-3" for="del-userid">User ID</label>
+                <div class="pt-1 mb-4">
+                  <input type="button" class="btn btn-dark btn-lg btn-block" id="del-veh-button" v-on:click="deleteUser" value="Delete User"/>
+                  <p/>
+                  <div id="del-user-msg" v-if="delUserMsg">User Deleted</div>
                 </div>
               </form>
             </div>
@@ -115,9 +200,13 @@ export default {
   name: "AdminPage",
   data() {
     return {
-      showAddPanel: true,
-      showModPanel: false,
-      showDelPanel: false,
+      //vehicle variables
+      showAddVehPanel: true,
+      showModVehPanel: false,
+      showDelVehPanel: false,
+      addVehMsg: false,
+      modVehMsg: false,
+      delVehMsg: false,
       addMake: "",
       addModel: "",
       addYear: "",
@@ -133,9 +222,24 @@ export default {
       modCapacity: "",
       modPrice: "",
       modType: "",
-      modSuccess: false,
       delVid: "",
-      delSuccess: false
+      //user variables
+      showAddUserPanel: false,
+      showModUserPanel: false,
+      showDelUserPanel: false,
+      addUserMsg: false,
+      modUserMsg: false,
+      delUserMsg: false,
+      addFname: "",
+      addLname: "",
+      addEmail: "",
+      addPhoneNum: "",
+      modUserId: "",
+      modFname: "",
+      modLname: "",
+      modEmail: "",
+      modPhoneNum: "",
+      delUserId: ""
     };
   },
   methods: {
@@ -150,8 +254,9 @@ export default {
           price: this.addPrice,
           type: this.addType
         }})
-        .then(function (response) {
+        .then((response) => {
           console.log(response);
+          this.addVehMsg = true;
         })
         .catch(function (error) {
           console.log(error);
@@ -189,7 +294,7 @@ export default {
         }})
         .then((response) => {
           console.log(response);
-          this.modSuccess = true;
+          this.modVehMsg = true;
           this.modMake ="";
           this.modModel = "";
           this.modYear = "";
@@ -209,8 +314,78 @@ export default {
       }})
       .then((response) => {
         console.log(response);
-        this.delSuccess = true;
+        this.delVehMsg = true;
         this.delVid = "";
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+    addUser() {
+      // call api endpoint to add a user and use data from form
+      axios.post('http://localhost:8080/addUser', {}, { params: {
+          fname: this.addFname,
+          lname: this.addLname,
+          email: this.addEmail,
+          phoneNum: this.addPhoneNum
+        }})
+        .then((response) => {
+          console.log(response);
+          this.addUserMsg = true;
+          this.addFname = "";
+          this.addLname = "";
+          this.addEmail = "";
+          this.addPhoneNum = "";
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    getUser() {
+      // call api endpoint to get a single user by vid, use form input as user id
+      const params = {
+        "id": this.modUserId
+      };
+      axios.get('http://localhost:8080/getUser',  { params })
+          .then(response => {
+            const foundUser = response.data;
+            this.modFname = foundUser.firstName;
+            this.modLname = foundUser.lastName;
+            this.modEmail = foundUser.email;
+            this.modPhoneNum = foundUser.phoneNum;
+          })
+          .catch(error => console.log(error));
+    },
+    modifyUser() {
+      // call api endpoint to modify a user and use data from form
+      axios.post('http://localhost:8080/modifyUser', {}, { params: {
+          id: this.modUserId,
+          fname: this.modFname,
+          lname: this.modLname,
+          email: this.modEmail,
+          phoneNum: this.modPhoneNum
+        }})
+        .then((response) => {
+          console.log(response);
+          this.modUserMsg = true;
+          this.modFname = "";
+          this.modLname = "";
+          this.modEmail = "";
+          this.modPhoneNum = "";
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    deleteUser() {
+      // call api endpoint to delete a user
+      axios.post('http://localhost:8080/deleteUser', {}, { params: {
+        id: this.delUserId
+      }})
+      .then((response) => {
+        console.log(response);
+        this.delUserMsg = true;
+        this.delUserId = "";
       })
       .catch(function (error) {
         console.log(error);
@@ -236,7 +411,8 @@ export default {
 #menu-buttons-col {
   margin-top: 50px;
 }
-#mod-saved-msg, #deleted-msg {
+#added-veh-msg, #mod-veh-saved-msg, #del-veh-msg,
+#added-user-msg, #mod-user-saved-msg, #del-user-msg {
   color: red;
   font-weight: bold;
   font-style: italic;
