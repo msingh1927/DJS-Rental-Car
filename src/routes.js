@@ -1,5 +1,6 @@
 import Home from "./components/HomeView.vue";
 import CarsListView from "./components/CarsListView.vue"
+import BookingView from "./components/BookingView.vue"
 import AdminPage from "./components/AdminPage.vue"
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -14,6 +15,14 @@ const routes = [
     path: "/carlist",
     name: "CarsListView",
     component: CarsListView,
+  },
+  {
+    path: "/book/:vid/:make/:model/:year/:color/:type/:pricePerDay",
+    name: "BookingView",
+    component: BookingView,
+    props: (route) => {
+      return { ...route.params };
+    }
   },
   {
     path: "/admin",

@@ -28,7 +28,7 @@
 		</ul>
 		</div>
 	</nav>
-  <body>
+	<body>
 	<div class="sidebar">
 		<div id="filter-form">
 			<h3>Refine Search</h3>
@@ -84,16 +84,14 @@
 			<p/>
 			<!-- Min Capacity -->
 			<div>
-				Input Minimum Seat Capacity:<br/>
+				Min. Num Seats Needed:<br/>
 				<input class="filter-input" type="number" v-model="minCapacityFilterVal" />
-                
 			</div>
 			<p/>
 			<!-- Max Price -->
 			<div>
 				Input Max Price:<br/>
 				<input class="filter-input" type="number" v-model="maxPriceFilterVal" />
-                
 			</div>
 			<!-- Buttons -->
 			<input type="button" class="btn filter-btn" id="filter-button" v-on:click="filterVehicles" value="Apply Filter"/>
@@ -108,11 +106,15 @@
 			<div class="car-wrap rounded" id="item+{{item.id}}">
 				<img class="car-img rounded" :src="item.imgUrl" :alt="item.make"/>
 				<div class="text">
-				<h2 class="mb-0">{{item.year}} {{item.make}} {{item.model}}</h2>
-				<div class="d-flex mb-3">
-					<p class="price ml-auto">${{item.pricePerDay}}<span>/day</span></p>
-				</div>
-				<router-link class="btn more-info-btn" to="/more-info">More Info</router-link>
+				<h5>{{item.year}} {{item.make}} {{item.model}}</h5>
+				{{item.color}} | {{item.type}} | Max. Capacity: {{item.capacity}}
+				<p/>
+				<p class="price ml-auto">${{item.pricePerDay}}<span>/day</span></p>
+				<br/>
+				<router-link class="btn book-now-btn" :to="{ name: 'BookingView', 
+					params: {vid: item.id, make: item.make, model: item.model, year: item.year, color: item.color, type: item.type, pricePerDay: item.pricePerDay}}">
+					Book Now
+				</router-link>
 				</div>
 			</div>
 		</li>
@@ -263,12 +265,12 @@ ul {
   width: 100%;
   height: auto;
 }
-.more-info-btn {
+.book-now-btn {
 	width: 100%;
 	background-color: rgb(157, 55, 55);
 	color: white;
 }
-.more-info-btn:hover {
+.book-now-btn:hover {
 	background-color: rgb(203, 119, 119);
 	color: white;
 }
@@ -296,13 +298,6 @@ ul {
   font-size: 12px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.3);
-}
-.car-wrap .text h2 {
-  font-size: 20px;
-  font-weight: 500;
-}
-.car-wrap .text h2 a {
-  color: #000000;
 }
 .car-wrap .text span.cat {
   font-weight: 400;
