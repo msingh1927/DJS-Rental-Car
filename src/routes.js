@@ -17,7 +17,7 @@ const routes = [
     component: CarsListView,
   },
   {
-    path: "/book/:vid/:make/:model/:year/:color/:type/:pricePerDay",
+    path: "/book/:vid/:make/:model/:year/:color/:type/:pricePerDay/:capacity/:imgUrl",
     name: "BookingView",
     component: BookingView,
     props: (route) => {

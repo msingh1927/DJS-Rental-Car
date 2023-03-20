@@ -112,7 +112,7 @@
 				<p class="price ml-auto">${{item.pricePerDay}}<span>/day</span></p>
 				<br/>
 				<router-link class="btn book-now-btn" :to="{ name: 'BookingView', 
-					params: {vid: item.id, make: item.make, model: item.model, year: item.year, color: item.color, type: item.type, pricePerDay: item.pricePerDay}}">
+					params: {vid: item.id, make: item.make, model: item.model, year: item.year, color: item.color, type: item.type, pricePerDay: item.pricePerDay, capacity: item.capacity, imgUrl: item.imgUrl}}">
 					Book Now
 				</router-link>
 				</div>
