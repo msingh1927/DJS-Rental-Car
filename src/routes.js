@@ -1,4 +1,3 @@
-import Home from "./components/HomeView.vue";
 import CarsListView from "./components/CarsListView.vue"
 import BookingView from "./components/BookingView.vue"
 import AdminPage from "./components/AdminPage.vue"
@@ -8,8 +7,8 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "CarsListView",
+    component: CarsListView,
   },
   {
     path: "/carlist",
