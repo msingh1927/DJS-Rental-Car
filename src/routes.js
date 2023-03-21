@@ -1,8 +1,5 @@
-import Home from "./components/HomeView.vue";
-import Registration from "./components/RegistrationView.vue";
-import BookedCars from "./components/BookedCars.vue";
-import carService from "./components/carService.vue";
 import CarsListView from "./components/CarsListView.vue"
+import BookingView from "./components/BookingView.vue"
 import AdminPage from "./components/AdminPage.vue"
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -10,35 +7,27 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/Registration",
-    name: "Registration",
-    component: Registration,
-  },
-  ,
-  {
-    path: "/carService",
-    name: "carService",
-    component: carService,
-  },
-  {
-    path: "/carlistview",
     name: "CarsListView",
     component: CarsListView,
+  },
+  {
+    path: "/carlist",
+    name: "CarsListView",
+    component: CarsListView,
+  },
+  {
+    path: "/book/:vid/:make/:model/:year/:color/:type/:pricePerDay/:capacity/:imgUrl",
+    name: "BookingView",
+    component: BookingView,
+    props: (route) => {
+      return { ...route.params };
+    }
   },
   {
     path: "/admin",
     name: "AdminPage",
     component: AdminPage,
-  },
-  {
-    path: "/BookedCars",
-    name: "BookedCars",
-    component: BookedCars,
-  },
+  }
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });
