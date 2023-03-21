@@ -49,7 +49,7 @@
             <strong>Max. Capacity:</strong> {{vehicle.capacity}} people<br/>
             <strong>Price:</strong> ${{vehicle.pricePerDay}}/day
           </div>
-          <DatePicker v-model="date" />
+          <Datepicker v-model="date" range></Datepicker>
         </div>
       </div>
           
@@ -85,26 +85,21 @@
   </body>
 </template>
 <script>
-import { ref } from 'vue';
-import DatePicker from '@vuepic/vue-datepicker';
+import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 export default {
     name: "BookingView",
     components: { 
-      DatePicker
+      Datepicker: VueDatePicker
     },
     data() {
       return {
+        date: null,
       }
-    },
-    mounted() {
     },
     computed: {
       vehicle() {
         return this.$route.params;
-      },
-      date() {
-        return ref();
       }
     },
     methods() {
