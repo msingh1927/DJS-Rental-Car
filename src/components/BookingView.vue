@@ -92,7 +92,7 @@
             <input type="button" :disabled="!userCreated" class="btn btn-success btn-lg btn-block" id="complete-transaction-button" v-on:click="completeTransaction" value="Complete Transaction and Book My Vehicle"/>
           </div>
           <div id="transaction-msg" v-if="transactionRequested">
-            <!--<strong>Rental Request Completed with Result:</strong> {{this.result}}-->
+            <strong>Rental Request Successfully Completed</strong>
             <input type="button" class="btn btn-secondary btn-lg" id="view-booking-btn" v-on:click="viewBooking" value="View Booking Details"/>
           </div>
         </form>
@@ -244,5 +244,8 @@ export default {
 }
 .payment-select {
 	width: 60%;
+}
+.transaction-msg {
+  text-align: center;
 }
 </style>
