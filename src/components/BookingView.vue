@@ -1,17 +1,11 @@
 <template>
-    <!-- Navbar -->
+  <!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="#">DJS Rental</a>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li>
-			<router-link class="nav-link" to="/home">Home</router-link>
-			</li>
-			<li>
 			<router-link class="nav-link" to="/carlist">View All Vehicles</router-link>
-			</li>
-			<li>
-			<router-link class="nav-link" to="/booked">Find Booked Vehicle</router-link>
 			</li>
 		</ul>
 		</div>
@@ -57,7 +51,7 @@
       <div id="contact-info-form" class="card col-4">
         <div class="card-body">
         <form>
-          <h3 class="fw-normal mb-3 pb-3">Add a Vehicle</h3>
+          <h3 class="fw-normal mb-3 pb-3">Enter Personal Information</h3>
           <!-- First Name -->
           <input type="text" :disabled="!contactFormEnabled" id="fname-input" v-model="fname" class="form-control form-control-md"/>
           <label class="form-label mb-3" for="fname-input">First Name</label>
@@ -65,10 +59,10 @@
           <input type="text" :disabled="!contactFormEnabled" id="lname-input" v-model="lname" class="form-control form-control-md"/>
           <label class="form-label mb-3" for="lname-input">Last Name</label>
           <!-- Email -->
-          <input type="text" :disabled="!contactFormEnabled" id="email-input" v-model="email" class="form-control form-control-md"/>
+          <input type="email" :disabled="!contactFormEnabled" id="email-input" v-model="email" class="form-control form-control-md"/>
           <label class="form-label mb-3" for="lname-input">E-mail</label>
           <!-- Phone Number -->
-          <input type="text" :disabled="!contactFormEnabled" id="phonenum-input" v-model="phoneNum" class="form-control form-control-md"/>
+          <input type="tel" :disabled="!contactFormEnabled" id="phonenum-input" v-model="phoneNum" class="form-control form-control-md"/>
           <label class="form-label mb-3" for="phonenum-input">Phone Number</label>
           <div class="form-button pt-1 mb-4">
             <input type="button" :disabled="!contactFormEnabled" class="btn btn-warning btn-lg btn-block" id="add-user-button" v-on:click="addUser" value="Use this as my contact Info"/>
@@ -97,7 +91,10 @@
           <div class="form-button pt-1 mb-4">
             <input type="button" :disabled="!userCreated" class="btn btn-success btn-lg btn-block" id="complete-transaction-button" v-on:click="completeTransaction" value="Complete Transaction and Book My Vehicle"/>
           </div>
-          <div id="transaction-msg" v-if="transactionRequested"><strong>Rental Request Completed with Result:</strong> {{this.result}}</div>
+          <div id="transaction-msg" v-if="transactionRequested">
+            <!--<strong>Rental Request Completed with Result:</strong> {{this.result}}-->
+            <input type="button" class="btn btn-secondary btn-lg" id="view-booking-btn" v-on:click="viewBooking" value="View Booking Details"/>
+          </div>
         </form>
         </div>
       </div>
@@ -110,6 +107,7 @@
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import axios from "axios";
+import router from '@/routes';
 export default {
   name: "BookingView",
   components: { 
@@ -117,6 +115,7 @@ export default {
   },
   data() {
     return {
+      vid: "",
       dateRange: null,
       calculatedCost: '',
       proceedButtonEnabled: false,
@@ -129,7 +128,8 @@ export default {
       userCreated: false,
       payFormEnabled: false,
       result: false,
-      transactionRequested: false
+      transactionRequested: false,
+      transactionid: ""
     }
   },
   computed: {
@@ -140,6 +140,7 @@ export default {
   methods: {
     // calculate the total cost to rent a vehicle for a date range
     getTotalCost() {
+      this.vid = this.vehicle.vid;
       const params = {
         "vid": this.vehicle.vid,
         "startDate": this.dateRange[0],
@@ -185,15 +186,31 @@ export default {
           console.log(response);
           this.result = response.data;
           this.transactionRequested = true;
+          this.transactionId = response.data;
         })
         .catch(function (error) {
           console.log(error);
         });
+    },
+    viewBooking() {
+      router.push({ name: 'BookingConfirmation', 
+        params: {
+          "vid": this.vid,
+          "userid": this.userId,
+          "transactionid": this.transactionId
+         }});
     }
   }
 }
 </script>
 <style>
+.navbar {
+	position: fixed;
+	height: 8%;
+	width: 100%;
+	z-index: 50000;
+	padding-left: 2%;
+}
 .page-body{
   position: absolute;
   width: 100%;

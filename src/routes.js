@@ -1,5 +1,6 @@
 import CarsListView from "./components/CarsListView.vue"
 import BookingView from "./components/BookingView.vue"
+import BookingConfirmation from "./components/BookingConfirmation.vue"
 import AdminPage from "./components/AdminPage.vue"
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -19,6 +20,14 @@ const routes = [
     path: "/book/:vid/:make/:model/:year/:color/:type/:pricePerDay/:capacity/:imgUrl",
     name: "BookingView",
     component: BookingView,
+    props: (route) => {
+      return { ...route.params };
+    }
+  },
+  {
+    path: "/confirm/:vid/:userid/:transactionid",
+    name: "BookingConfirmation",
+    component: BookingConfirmation,
     props: (route) => {
       return { ...route.params };
     }
