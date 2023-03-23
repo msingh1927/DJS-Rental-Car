@@ -129,7 +129,12 @@ import axios from 'axios'
 		mounted() {
 			//get the initial list of vehicles
 			axios.get('http://localhost:8080/getAllVehicles')
-				.then(response => this.items = response.data)
+				.then(response => {
+					// filter the list of all vehicles to only show available vehicles
+					this.items = response.data.filter(item => {
+						return item.taken == false;
+					})
+				})
 				.catch(error => console.log(error));
 			//get all vehicle makes
 			axios.get('http://localhost:8080/getAllMakes')
