@@ -5,13 +5,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li>
-			<router-link class="nav-link" to="/home">Home</router-link>
-			</li>
-			<li>
 			<router-link class="nav-link" to="/carlist">View All Vehicles</router-link>
-			</li>
-			<li>
-			<router-link class="nav-link" to="/booked">Find Booked Vehicle</router-link>
 			</li>
 		</ul>
 		</div>
@@ -99,8 +93,10 @@
 				<p/>
 				<p class="price ml-auto">${{item.pricePerDay}}<span>/day</span></p>
 				<br/>
-				<router-link class="btn book-now-btn" :to="{ name: 'BookingView', 
-					params: {vid: item.id, make: item.make, model: item.model, year: item.year, color: item.color, type: item.type, pricePerDay: item.pricePerDay, capacity: item.capacity, imgUrl: item.imgUrl}}">
+				<router-link class="btn book-now-btn" 
+					v-if="typeof item.imgUrl !== 'undefined'"
+					:to="{ name: 'BookingView', 
+					params: {vid: item.id, make: item.make, model: item.model, year: item.year, color: item.color, type: item.type, pricePerDay: item.pricePerDay, capacity: item.capacity, imgUrl: item.imgUrl }}">
 					Book Now
 				</router-link>
 				</div>
@@ -133,7 +129,12 @@ import axios from 'axios'
 		mounted() {
 			//get the initial list of vehicles
 			axios.get('http://localhost:8080/getAllVehicles')
-				.then(response => this.items = response.data)
+				.then(response => {
+					// filter the list of all vehicles to only show available vehicles
+					this.items = response.data.filter(item => {
+						return item.taken == false;
+					})
+				})
 				.catch(error => console.log(error));
 			//get all vehicle makes
 			axios.get('http://localhost:8080/getAllMakes')
@@ -208,6 +209,7 @@ body {
 	height: 8%;
 	width: 100%;
 	z-index: 50000;
+	padding-left: 2%;
 }
 #navbar-title {
 	margin-right: 5%;

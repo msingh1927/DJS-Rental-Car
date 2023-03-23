@@ -42,7 +42,7 @@
               <div class="pt-1 mb-4">
                 <input type="button" class="btn btn-dark btn-lg btn-block" id="add-vehicle-button" v-on:click="addVehicle" value="Add Vehicle"/>
                 <p/>
-                <div id="added-veh-msg" v-if="addVehMsg">Vehicle Added</div>
+                <div id="added-veh-msg" v-if="addVehMsg">Vehicle Added with ID: {{addVehId}}</div>
               </div>
             </form>
           </div>
@@ -205,6 +205,7 @@ export default {
       addVehMsg: false,
       modVehMsg: false,
       delVehMsg: false,
+      addVehId: "",
       addMake: "",
       addModel: "",
       addYear: "",
@@ -255,6 +256,7 @@ export default {
         .then((response) => {
           console.log(response);
           this.addVehMsg = true;
+          this.addVehId = response.data;
         })
         .catch(function (error) {
           console.log(error);
