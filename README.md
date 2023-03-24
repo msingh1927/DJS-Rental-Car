@@ -9,6 +9,8 @@ The DJS Rental Car project provides a UI for a user to rent a vehicle. It curren
 npm install
 npm run serve -- --port 3000
 ```
+After running the serve command, the website can be accessed with the url http://localhost:3000/carlistview
+Note: The corresponding backend project server MUST be running.
 
 ## Components
 1. App.vue - The main application vue file
